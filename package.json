@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-graphql-from0",
+  "version": "1.0.0",
+  "description": "Course repository",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0/issues"
+  },
+  "homepage": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0#readme"
+}
