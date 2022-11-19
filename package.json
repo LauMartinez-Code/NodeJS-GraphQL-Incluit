@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-graphql-from0",
+  "name": "nodejs-graphql-incluit",
   "version": "1.0.0",
   "description": "Course repository",
   "main": "index.js",
@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0.git"
+    "url": "git+https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0/issues"
+    "url": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit/issues"
   },
-  "homepage": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-from0#readme"
+  "homepage": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit#readme"
 }
