@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "init-mongo": "sudo service mongodb start && mongo --eval 'db.runCommand({ connectionStatus: 1 })'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,8 @@
   },
   "homepage": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
