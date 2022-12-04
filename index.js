@@ -1,10 +1,14 @@
 const express = require('express');
-const app = express();
+const { graphqlHTTP } = require('express-graphql');
+const { GraphQLError } = require('graphql');
+const { loadSchemaSync } = require('@graphql-tools/load');
+const { GraphQLFileLoader  } = require('@graphql-tools/graphql-file-loader');
 const mongoose = require('mongoose');
+
+const app = express();
 
 try {
     mongoose.connect('mongodb://localhost:27017/products');
-    
     mongoose.connection.once('open', () => console.log('DB connected'));
     
     const ProductSchema = new mongoose.Schema({
@@ -16,35 +20,43 @@ try {
     });
     
     const Product = mongoose.model('Product', ProductSchema);
-    
-    //Run this code once to fill the DB with some data. Then delete it or comment it again
-    // const productsJSON = require('./products.json');
-    // productsJSON.products.forEach(e => {
-    //     new Product(e).save()
-    //     .catch(error => console.error(`Something went wrong saving ${e}`, error));
-    // });
 
-    app.use(async (req, res, next) => {
-        if (req.query.title) {
-            const filteredProducts = await Product.find({ title: new RegExp(`${req.query.title}+`,"i")});
+    let graphqlSchema = loadSchemaSync('./schema.graphql', { loaders: [new GraphQLFileLoader()] });
 
-            if (filteredProducts.length > 0) {
-                return res.status(200).json(filteredProducts);
-            } else {
-                return res.status(404).json({ message : 'No products found.' });
+    const resolvers = {
+        productById: async (param) => {
+            
+            if (param.id) {
+                const filteredProduct = await Product.findById(param.id);
+                
+                if (filteredProduct) {
+                    return filteredProduct;
+                } else {
+                    throw new GraphQLError('HTTP 404. Product not found.', { extensions: { code: '404' } });
+                }
             }
-        }
-    
-        next();
-    });
-    
-    app.get('/products', async (req, res) => {
-        res.status(200).json(await Product.find());
-    });
-    
-    app.listen(3000, () => console.log('API listening on http://localhost:3000/products'));
+        },
+        productsByTitle: async (param) => {
+            
+            if (param.title) {
+                const filteredProducts = await Product.find({ title: new RegExp(`${param.title}+`,"i")});
+                
+                if (filteredProducts.length > 0)
+                    return filteredProducts;
+            }
+
+        },
+        products: async () => await Product.find(),
+    };
+
+    app.use('/graphql', graphqlHTTP({
+        schema: graphqlSchema,
+        rootValue: resolvers,
+        graphiql: true,
+    }));
+
+    app.listen(3000, () => console.log('API listening on http://localhost:3000/graphql'));
 
 } catch (error) {
     console.error(error);
 }
-

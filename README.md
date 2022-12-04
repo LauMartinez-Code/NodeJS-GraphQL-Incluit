@@ -1,8 +1,9 @@
-# Clase 3
+# Clase 4
 
 ## Actividades
-- Crear una API rest para un listado de productos
-- Implementar MongoDB y Mongoose a la API rest de la actividad anterior
+- Crear una API rest para un listado de productos ✅
+- Implementar MongoDB y Mongoose a la API rest de la actividad anterior ✅
+- Agregar GraphQL a la API
 
 ## To run this app:
 ### Download npm dependencies
