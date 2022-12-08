@@ -6,29 +6,51 @@ const { Product } = require('../DB/Product');
 let graphqlSchema = loadSchemaSync('./models/GraphQL/Schema.graphql', { loaders: [new GraphQLFileLoader()] });
 
 const resolvers = {
-    productById: async (param) => {
+    //#region Queries
+    getProductById: async (param) => {
+        const filteredProduct = await Product.findById(param.id);
         
-        if (param.id) {
-            const filteredProduct = await Product.findById(param.id);
+        if (filteredProduct)
+            return filteredProduct;
+        else
+            throw new GraphQLError('HTTP 404. Product not found.', { extensions: { code: '404' } });
+        
+    },
+    getProductsByTitle: async (param) => {
+        const filteredProducts = await Product.find({ title: new RegExp(`${param.title}+`,"i")});
+        
+        if (filteredProducts.length > 0)
+            return filteredProducts;
+    },
+    getAllproducts: async () => await Product.find(),
+    //#endregion
+    
+    //#region Mutations
+    addProduct: async (param) => await Product.find(), //insert o .save()
+
+    updateProductPrice: async (params) => {
+        const { id, price } = params;
+
+        if (id && price) {
+            const updatedProduct = await Product.findByIdAndUpdate(id, { price: price }, { returnDocument: 'after' });
             
-            if (filteredProduct) {
-                return filteredProduct;
+            if (updatedProduct) {
+                return updatedProduct;
             } else {
                 throw new GraphQLError('HTTP 404. Product not found.', { extensions: { code: '404' } });
             }
-        }
-    },
-    productsByTitle: async (param) => {
-        
-        if (param.title) {
-            const filteredProducts = await Product.find({ title: new RegExp(`${param.title}+`,"i")});
-            
-            if (filteredProducts.length > 0)
-                return filteredProducts;
+        } else{
+            throw new GraphQLError('HTTP 400. Bad request.', { extensions: { code: '400' } });
         }
 
     },
-    products: async () => await Product.find(),
+    deleteProduct: async (param) => {
+        const query = await Product.deleteOne({ _id: param?.id });
+        console.log(`${query.deletedCount} product${query.deletedCount == 1 ? ' was' : 's were'} deleted`);
+
+        return query.deletedCount > 0;
+    },
+    //#endregion
 };
 
 module.exports = { graphqlSchema, resolvers };

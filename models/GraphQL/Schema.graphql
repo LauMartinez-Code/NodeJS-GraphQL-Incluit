@@ -1,11 +1,22 @@
 type Query {
-    products: [Product]
-    productById(id: ID!): Product
-    productsByTitle(title: String!): [Product]
+    getAllproducts: [Product]
+    getProductById(id: ID!): Product
+    getProductsByTitle(title: String!): [Product]
+}
+
+type Mutation {
+    addProduct(body: ProductBody): Product
+    updateProductPrice(id: ID!, price: Float!): Product
+    deleteProduct(id: ID!): Boolean
 }
 
 type Product {
     _id: ID!
+    title: String!
+    price: Float!
+}
+
+input ProductBody {
     title: String!
     price: Float!
 }
