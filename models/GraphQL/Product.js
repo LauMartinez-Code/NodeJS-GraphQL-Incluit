@@ -3,7 +3,7 @@ const { loadSchemaSync } = require('@graphql-tools/load');
 const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader');
 const { Product } = require('../DB/Product');
 
-let graphqlSchema = loadSchemaSync('./models/GraphQL/Schema.graphql', { loaders: [new GraphQLFileLoader()] });
+const graphqlSchema = loadSchemaSync('./models/GraphQL/Schema.graphql', { loaders: [new GraphQLFileLoader()] });
 
 const resolvers = {
     //#region Queries
@@ -26,7 +26,7 @@ const resolvers = {
     //#endregion
     
     //#region Mutations
-    addProduct: async (param) => await Product.find(), //insert o .save()
+    addProduct: async (param) => await Product.create(param.body),
 
     updateProductPrice: async (params) => {
         const { id, price } = params;
