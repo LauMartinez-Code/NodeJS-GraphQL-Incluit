@@ -1,20 +1,23 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const { graphqlSchema, resolvers } = require('./models/GraphQL/Product');
-const mongoose = require('mongoose');
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { typeDefs, resolvers } from './models/GraphQL/Product.js';
+import mongoose from 'mongoose';
 
 try {
-    const app = express();
+    
     mongoose.connect('mongodb://localhost:27017/products');
     mongoose.connection.once('open', () => console.log('DB connected'));
 
-    app.use('/graphql', graphqlHTTP({
-        schema: graphqlSchema,
-        rootValue: resolvers,
-        graphiql: true,
-    }));
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+    });
 
-    app.listen(3000, () => console.log('API listening on http://localhost:3000/graphql'));
+    const { url } = await startStandaloneServer(server, {
+        listen: { port: 4000 },
+    });
+      
+    console.log(`🚀 Server ready at: ${url}`);
 
 } catch (error) {
     console.error(error);
