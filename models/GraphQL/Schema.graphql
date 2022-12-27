@@ -1,7 +1,10 @@
+union Search = Product|User
+
 type Query {
     getAllproducts: [Product]
     getProductById(id: ID!): Product
     getProductsByTitle(title: String!): [Product]
+    search(term: String!): [Search]
 }
 
 type Mutation {
@@ -19,4 +22,11 @@ type Product {
 input ProductBody {
     title: String!
     price: Float!
+}
+
+type User {
+    _id: ID!
+    name: String
+    email: String
+    role_id: Int
 }
