@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-graphql-incluit",
+  "version": "1.0.0",
+  "description": "Course repository",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "init-mongo": "sudo service mongodb start && mongo --eval 'db.runCommand({ connectionStatus: 1 })'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit/issues"
+  },
+  "homepage": "https://github.com/LauMartinez-Code/NodeJS-GraphQL-Incluit#readme",
+  "dependencies": {
+    "@apollo/server": "^4.3.0",
+    "@graphql-tools/graphql-file-loader": "^7.5.11",
+    "@graphql-tools/load": "^7.8.6",
+    "graphql": "^16.6.0",
+    "mongoose": "^6.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

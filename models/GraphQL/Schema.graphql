@@ -1,0 +1,32 @@
+union Search = Product|User
+
+type Query {
+    getAllproducts: [Product]
+    getProductById(id: ID!): Product
+    getProductsByTitle(title: String!): [Product]
+    search(term: String!): [Search]
+}
+
+type Mutation {
+    addProduct(body: ProductBody): Product
+    updateProductPrice(id: ID!, price: Float!): Product
+    deleteProduct(id: ID!): Boolean
+}
+
+type Product {
+    _id: ID!
+    title: String!
+    price: Float!
+}
+
+input ProductBody {
+    title: String!
+    price: Float!
+}
+
+type User {
+    _id: ID!
+    name: String
+    email: String
+    role_id: Int
+}
